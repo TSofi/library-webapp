@@ -1,0 +1,82 @@
+body {
+  background-color: #dfdfdf;
+}
+
+hr {
+  margin: 0;
+}
+
+.book-details-container {
+  margin-top: 80px;
+  padding-bottom: 50px;
+  padding-left: 150px;
+  padding-right: 150px;
+}
+
+.book-cover-container {
+  background-color: #f8f8f8;
+}
+
+.book-cover-wrapper {
+  margin-top: 10px;
+  width: 90%;
+  margin-bottom: 40px;
+  position: sticky;
+  top: 0;
+  padding-left: 15px;
+}
+
+.book-cover {
+  object-fit: contain;
+}
+
+.book-details-card {
+  padding-top: 10px;
+  padding-bottom: 40px;
+  background-color: #f8f8f8;
+  padding-right: 15px;
+}
+
+.book-details-content {
+  padding-top: 20px;
+  text-align: left;
+  background-color: #f8f8f8;
+}
+
+.book-details-container .book-title {
+  font-size: 44px;
+  font-weight: 700;
+}
+
+.book-details-container .book-details-text {
+  font-size: 20px;
+  font-weight: 700;
+  padding-bottom: 10px;
+  padding-top: 15px;
+}
+
+.book-details-list {
+  padding-bottom: 40px;
+}
+
+.grid-item .MuiTypography-root {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.grid-val .MuiTypography-root {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.rating-container {
+  display: flex;
+  align-items: center;
+  padding-top: 10px;
+  padding-bottom: 15px;
+}
+
+.wide-button {
+  width: 100%;
+  text-align: center;
+}
