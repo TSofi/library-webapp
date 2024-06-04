@@ -1,6 +1,7 @@
 import React from 'react';
-import LoginForm from './login-form/Login-form';
+import LoginForm from './login-form/LoginForm';
 import HomePage from './HomePage/HomePage';
+import BookList from './BookDetails/BookList';
 
 import {
   BrowserRouter as Router,
@@ -16,6 +17,7 @@ function App() {
         <Route path="/" element={<Navigate to="/login" />} />
         <Route path="/login" element={<LoginForm />} />
         <Route path="/home" element={<HomePage />} />
+        <Route path="/books" element={<BookList />} />
       </Routes>
     </Router>
   );
