@@ -7,6 +7,7 @@ import * as yup from 'yup';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { mainButtonStyle } from '../menu-app-bar/buttonStyle';
 import axios, { AxiosInstance } from 'axios';
+import RegisterForm from './Register-form';
 
 function LoginForm() {
   const navigate = useNavigate();
@@ -25,23 +26,25 @@ function LoginForm() {
     setOpen(false);
   };
 
-  const axiosInstance = axios.create({
-    baseURL: 'http://localhost:8081/api',
-  });
-
   const onSubmit = useCallback(
     async (values: { username: string; password: string }, formik: any) => {
       try {
+        console.log('Submitting login form with values:', values);
         const response = await axios.post(
-          'http://localhost:8081/auth/login',
+          'http://localhost:8081/api/auth/login',
           values,
         );
 
-        if (response.status === 200) {
+        console.log('Response:', response);
+
+        if (response.status === 200 || response.status === 201) {
           const { token } = response.data;
           localStorage.setItem('token', token);
+          console.log('Token saved to localStorage');
           navigate('/home');
+          console.log('Navigation to /home triggered');
         } else {
+          console.log('Login failed with status:', response.status);
           setOpen(true);
         }
       } catch (error) {
@@ -51,6 +54,10 @@ function LoginForm() {
     },
     [navigate],
   );
+
+  const handleAbout = useCallback(() => {
+    navigate('/about');
+  }, [navigate]);
 
   const validationSchema = useMemo(
     () =>
@@ -73,7 +80,7 @@ function LoginForm() {
         anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
       >
         <Alert onClose={handleClose} severity="error">
-          Login failed. Please check your credentials and try again.
+          Login failed. Please check what you write and try again.
         </Alert>
       </Snackbar>
       <Formik
@@ -134,6 +141,21 @@ function LoginForm() {
                 Login
               </Button>
             </form>
+
+            <div className="about-box">
+              <p>
+                If you don't have an account, please check the rules on how you
+                can be accepted into the club.
+              </p>
+              <Button
+                className="about-button"
+                variant="contained"
+                onClick={handleAbout}
+                sx={mainButtonStyle}
+              >
+                About
+              </Button>
+            </div>
           </div>
         )}
       </Formik>

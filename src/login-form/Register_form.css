@@ -1,0 +1,75 @@
+/* Add this to your Register_form.css file */
+.background-image {
+  position: relative;
+  background-image: url('../assets/images/loginWallp.png');
+  background-position: center;
+  background-size: cover;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.background-image::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.register-form-container {
+  position: relative;
+  background-color: rgba(254, 251, 251, 0.65);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0px 20px 20px 0px rgba(0, 0, 0, 0.919);
+  border-radius: 10px;
+  width: 40%;
+  height: 50%;
+  max-width: 800px;
+  max-height: 500px;
+}
+
+.register-form-container h1 {
+  margin-top: 1rem;
+  margin-bottom: 0rem;
+  font-size: 36px;
+  color: #080808;
+  font-weight: 800;
+}
+
+.register-form {
+  display: flex;
+  gap: 2rem;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.register-button {
+  width: 100%;
+  margin-top: 1rem;
+  background: linear-gradient(45deg, #6c05ea 30%, #c02a04 90%);
+  color: white;
+  padding: 1rem;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out;
+}
+
+.register-button:hover {
+  background: linear-gradient(45deg, #e12900 30%, #4500c6 90%);
+}
+
+.error-message {
+  height: 40px;
+}

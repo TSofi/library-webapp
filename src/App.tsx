@@ -2,6 +2,7 @@ import React from 'react';
 import LoginForm from './login-form/LoginForm';
 import HomePage from './HomePage/HomePage';
 import BookList from './BookDetails/BookList';
+import About from './HomePage/About';
 
 import {
   BrowserRouter as Router,
@@ -18,6 +19,7 @@ function App() {
         <Route path="/login" element={<LoginForm />} />
         <Route path="/home" element={<HomePage />} />
         <Route path="/books" element={<BookList />} />
+        <Route path="/about" element={<About />} />
       </Routes>
     </Router>
   );

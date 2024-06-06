@@ -1,0 +1,65 @@
+/* AboutPage.css */
+
+.about-background {
+  position: relative;
+  background-image: url('../assets/images/Library_image_with_girl_magic.jpg');
+  background-position: center;
+  background-size: cover;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.about-container {
+  position: relative;
+  background-color: rgba(254, 251, 251, 0.65);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0px 20px 20px 0px rgba(0, 0, 0, 0.919);
+  border-radius: 10px;
+  width: 40%;
+  max-width: 800px;
+  margin-bottom: 40px;
+}
+
+.about-container h1 {
+  margin-top: 1rem;
+  margin-bottom: 0rem;
+  font-size: 36px;
+  color: #080808;
+  font-weight: 800;
+}
+
+.about-container p {
+  margin-top: 1rem;
+  font-size: 18px;
+  color: #080808;
+}
+
+.back-to-login-button {
+  margin-top: 20px;
+  background-color: transparent;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 16px;
+  text-transform: uppercase;
+  cursor: pointer;
+  background-image: linear-gradient(135deg, deepblue, deepviolet);
+  background-size: 200% 200%;
+  transition: background-position 1.5s ease;
+  box-shadow: 0px 3px 15px rgba(0, 0, 0, 0); /* Initially no shadow */
+
+  &:hover {
+    background-position: 100% 100%;
+  }
+
+  &:active {
+    box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.3); /* Shadow on click */
+  }
+}
