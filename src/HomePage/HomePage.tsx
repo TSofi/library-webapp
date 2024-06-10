@@ -60,21 +60,26 @@ function HomePage() {
           <Button
             variant="contained"
             sx={{
+              margin: '20px 0',
+              backgroundColor: 'transparent',
+              color: 'white',
+              border: 'none',
+              padding: '12px 24px',
+              borderRadius: '8px',
+              fontSize: '16px',
+              textTransform: 'uppercase',
+              cursor: 'pointer',
               backgroundImage:
-                'linear-gradient(135deg, #FF1493, #9400D3, #191970)',
-              backgroundColor: 'white',
-              color: 'black',
-              borderRadius: '30px',
-              width: '8em',
-              fontFamily: 'Arial, Helvetica, sans-serif',
-              fontWeight: 'bold',
-              fontSize: '0.9em',
-              marginTop: '1em',
-              paddingLeft: '1em',
-              transition: 'background-image 0.3s ease-in-out',
+                'linear-gradient(135deg, rgb(22, 7, 238), rgb(206, 160, 251))',
+              backgroundSize: '200% 200%',
+              animation: 'gradientShift 5s ease infinite',
+              boxShadow: '0px 3px 15px rgba(0, 0, 0, 0)',
+              transition: 'background-position 0.3s ease, box-shadow 0.3s ease',
               '&:hover': {
-                backgroundImage:
-                  'linear-gradient(135deg,#94c8ff, #c994ff, #ed90f3)',
+                backgroundPosition: '100% 100%',
+              },
+              '&:active': {
+                boxShadow: '0px 3px 15px rgba(0, 0, 0, 0.3)',
               },
             }}
             component={Link}
@@ -83,36 +88,94 @@ function HomePage() {
             Explore
           </Button>
         </Box>
+
         <hr className="hr1" />
-        <Typography
-          sx={{
-            fontSize: '1.7em',
-            fontWeight: 'bold',
-            fontFamily: 'Arial, Helvetica, sans-serif',
-            marginY: '0',
-            color: '#222',
-            marginLeft: '2.5em',
-            marginTop: '1em',
-          }}
-        >
-          Rules of memebrship
-        </Typography>
-        <hr className="hr2" />
-        <div className="boxContainer"></div>
-        <Typography
-          sx={{
-            fontSize: '1.7em',
-            fontWeight: 'bold',
-            fontFamily: 'Arial, Helvetica, sans-serif',
-            marginY: '0',
-            color: '#222',
-            marginLeft: '2.5em',
-            marginTop: '1em',
-          }}
-        >
-          Some another text-box maybe i will need this later
-        </Typography>
-        <hr className="hr2" />
+
+        <Box sx={{ padding: '2em' }}>
+          <Typography
+            sx={{
+              fontSize: '1.7em',
+              fontWeight: 'bold',
+              fontFamily: 'Arial, Helvetica, sans-serif',
+              color: '#222',
+              marginBottom: '1em',
+              textAlign: 'center',
+            }}
+          >
+            The Enchanting History of my Library Club
+          </Typography>
+          <hr className="hr2" />
+          <Typography
+            sx={{
+              fontSize: '1.2em',
+              fontFamily: 'Arial, Helvetica, sans-serif',
+              color: '#444',
+              marginBottom: '1.5em',
+              textAlign: 'justify',
+              padding: '0 2em',
+            }}
+          >
+            From a young age, my love for reading was evident. I started delving
+            into children's fairy tales at the age of five, and as I grew older,
+            my tastes evolved to include dramas, horrors, detective stories,
+            and, of course, fantasy novels. Books became my sanctuary, a place
+            where I could explore new worlds and experience endless adventures.
+          </Typography>
+          <Typography
+            sx={{
+              fontSize: '1.2em',
+              fontFamily: 'Arial, Helvetica, sans-serif',
+              color: '#444',
+              marginBottom: '1.5em',
+              textAlign: 'justify',
+              padding: '0 2em',
+            }}
+          >
+            However, life took a challenging turn during my teenage years. I
+            faced dark and difficult times, and my once-beloved books were set
+            aside for nearly four years. It felt as though I had lost a crucial
+            part of myself. Then, in July 2022, a spark was reignited. I
+            stumbled upon a review on BookTok, where a passionate fan of fantasy
+            literature shared their thoughts on a new release. Intrigued, I
+            decided to give the book a try.
+          </Typography>
+          <Typography
+            sx={{
+              fontSize: '1.2em',
+              fontFamily: 'Arial, Helvetica, sans-serif',
+              color: '#444',
+              marginBottom: '1.5em',
+              textAlign: 'justify',
+              padding: '0 2em',
+            }}
+          >
+            That decision changed everything. As I immersed myself in the story,
+            my long-lost passion for reading was rekindled. I began to build an
+            extensive electronic library, filled with works from some of the
+            most renowned authors in contemporary fantasy, particularly within
+            the young adult genre. Books once again became my refuge, guiding me
+            out of the shadows and into a world of imagination and wonder.
+          </Typography>
+          <Typography
+            sx={{
+              fontSize: '1.2em',
+              fontFamily: 'Arial, Helvetica, sans-serif',
+              color: '#444',
+              marginBottom: '1.5em',
+              textAlign: 'justify',
+              padding: '0 2em',
+            }}
+          >
+            Inspired by my journey and the profound impact that books had on my
+            life, I decided to create a space where others could find solace and
+            inspiration through reading. Thus, the Fantasy Library Club was
+            born. This club is a haven for literary enthusiasts, a community
+            where the love for books and the magic of storytelling can flourish.
+            It is my hope that through my club, others will discover, or
+            rediscover, the joy and transformative power of reading, just as I
+            did.
+          </Typography>
+        </Box>
       </div>
       <Footer />
       <Outlet />

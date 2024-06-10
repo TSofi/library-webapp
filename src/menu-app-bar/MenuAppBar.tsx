@@ -3,11 +3,9 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
-
 import BookIcon from '@mui/icons-material/Book';
 import HomeIcon from '@mui/icons-material/Home';
 import { Link } from 'react-router-dom';
@@ -29,15 +27,6 @@ export default function MenuAppBar() {
   return (
     <AppBar position="fixed" style={{ backgroundColor: '#333' }}>
       <Toolbar>
-        <IconButton
-          size="large"
-          edge="start"
-          color="inherit"
-          aria-label="menu"
-          sx={{ mr: 2 }}
-        >
-          <MenuIcon />
-        </IconButton>
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
           Your Fantasy Library
         </Typography>
@@ -85,7 +74,6 @@ export default function MenuAppBar() {
             >
               My Profile
             </MenuItem>
-
             <MenuItem
               onClick={() => {
                 handleClose();

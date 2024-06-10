@@ -18,13 +18,10 @@ const Footer = () => {
       <Grid container spacing={2}>
         <Grid item xs={6}>
           <Typography variant="h6">Owner: Sofi Tretiak</Typography>
-          <Typography>Email: 276700@student.pwr.edu.pl</Typography>
+          <Typography>Email: secretFantasyLibrary@gmail.com</Typography>
           <Typography>Phone: 799-088-655</Typography>
         </Grid>
         <Grid item xs={6}>
-          <Button onClick={() => navigate('/books')} color="inherit">
-            Books
-          </Button>
           <Button onClick={() => navigate('/my_books')} color="inherit">
             My Books
           </Button>

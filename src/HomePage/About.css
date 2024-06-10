@@ -1,5 +1,3 @@
-/* AboutPage.css */
-
 .about-background {
   position: relative;
   background-image: url('../assets/images/Library_image_with_girl_magic.jpg');
@@ -21,9 +19,9 @@
   align-items: center;
   box-shadow: 0px 20px 20px 0px rgba(0, 0, 0, 0.919);
   border-radius: 10px;
-  width: 40%;
+  width: 43%;
   max-width: 800px;
-  margin-bottom: 40px;
+  margin: 0 auto; /* Center the container */
 }
 
 .about-container h1 {
@@ -50,9 +48,13 @@
   font-size: 16px;
   text-transform: uppercase;
   cursor: pointer;
-  background-image: linear-gradient(135deg, deepblue, deepviolet);
+  background-image: linear-gradient(
+    135deg,
+    rgb(22, 7, 238),
+    rgb(206, 160, 251)
+  );
   background-size: 200% 200%;
-  transition: background-position 1.5s ease;
+  animation: gradientShift 5s ease infinite; /* Animation for continuous color change */
   box-shadow: 0px 3px 15px rgba(0, 0, 0, 0); /* Initially no shadow */
 
   &:hover {
@@ -61,5 +63,17 @@
 
   &:active {
     box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.3); /* Shadow on click */
+  }
+}
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
   }
 }
