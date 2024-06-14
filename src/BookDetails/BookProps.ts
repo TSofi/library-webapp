@@ -5,5 +5,5 @@ export interface BookProps {
   author: string;
   publisher: string;
   publicationYear: number;
-  isAvailable: boolean;
+  available: boolean;
 }

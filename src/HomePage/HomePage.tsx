@@ -102,7 +102,7 @@ function HomePage() {
               textAlign: 'center',
             }}
           >
-            The Enchanting History of my Library Club
+            The enchanting history of my library club
           </Typography>
           <hr className="hr2" />
           <Typography

@@ -1,9 +1,9 @@
-import { BookDto } from './bookDTO';
+import { GetBookDto } from './bookDTO';
 import { UserDto } from './userDTO';
 
 export class LoanDto {
   id!: number;
-  book!: BookDto;
+  book!: GetBookDto;
   user!: UserDto;
   dateOfLoan!: string;
   dueDate!: string;

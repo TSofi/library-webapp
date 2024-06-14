@@ -1,6 +1,6 @@
 // LoanForm.tsx
 import React, { useState } from 'react';
-import { BookProps } from './BookProps';
+import { BookProps } from '../BookProps';
 
 interface LoanFormProps {
   book: BookProps;

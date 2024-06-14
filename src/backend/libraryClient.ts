@@ -11,12 +11,7 @@ import Cookies from 'universal-cookie';
 import { JwtPayload, jwtDecode } from 'jwt-decode';
 
 import { LoginDto, LoginResponseDto } from '../DTO-s/loginDTO';
-import {
-  BooksPageDto,
-  BookDetailsDto,
-  AddBookDto,
-  AddBookResponseDto,
-} from '../DTO-s/bookDTO';
+import { BooksPageDto, GetBookDto, AddBookResponseDto } from '../DTO-s/bookDTO';
 
 import {
   CreateLoanDto,
@@ -42,7 +37,7 @@ export class LibraryClient {
 
   constructor() {
     this.client = axios.create({
-      baseURL: 'http://localhost:8080/api',
+      baseURL: 'http://localhost:8081/api',
     });
 
     this.client.interceptors.request.use((config) => {
@@ -54,12 +49,22 @@ export class LibraryClient {
     });
   }
 
+  public async isAdmin(): Promise<boolean> {
+    const role = await this.getUserRole();
+    return role === 'ROLE_ADMIN';
+  }
+
   public getUserRole(): string {
     const token = this.cookies.get('token');
+    console.log('token', token);
     if (token) {
-      const decoded = jwtDecode<MyJwtPayload>(token);
-      if (decoded.role) {
-        return decoded.role;
+      try {
+        const decoded = jwtDecode<MyJwtPayload>(token);
+        if (decoded.role) {
+          return decoded.role;
+        }
+      } catch (error) {
+        console.error('Error decoding JWT token:', error);
       }
     }
     return '';
@@ -78,7 +83,9 @@ export class LibraryClient {
         `Bearer ${response.data.token}`;
       const decoded = jwtDecode<MyJwtPayload>(response.data.token);
 
+      console.log('decoded', decoded);
       if (decoded.exp) {
+        console.log('cookie saved', decoded.exp);
         this.cookies.set('token', response.data.token, {
           expires: new Date(decoded.exp * 1000),
         });
@@ -168,10 +175,10 @@ export class LibraryClient {
   public async getBooks(
     page: number = 0,
     searchTerm: string | null = null,
-  ): Promise<ClientResponse<BooksPageDto | null>> {
+  ): Promise<ClientResponse<GetBookDto[] | null>> {
     try {
-      const response: AxiosResponse<BooksPageDto> = await this.client.get(
-        'books/getAll',
+      const response: AxiosResponse<GetBookDto[]> = await this.client.get(
+        'addBook/getAll',
         {
           params: {
             page: page,
@@ -194,13 +201,12 @@ export class LibraryClient {
       };
     }
   }
-
   public async getBookDetails(
     id: number,
-  ): Promise<ClientResponse<BookDetailsDto | null>> {
+  ): Promise<ClientResponse<GetBookDto | null>> {
     try {
-      const response: AxiosResponse<BookDetailsDto> = await this.client.get(
-        `books/details/${id}`,
+      const response: AxiosResponse<GetBookDto> = await this.client.get(
+        `addBook/details/${id}`,
       );
       return {
         success: true,
@@ -220,7 +226,7 @@ export class LibraryClient {
   public async deleteBook(id: number): Promise<ClientResponse<null>> {
     try {
       const response: AxiosResponse<null> = await this.client.delete(
-        `books/delete/${id}`,
+        `addBook/delete/${id}`,
       );
       return {
         success: true,
@@ -238,7 +244,7 @@ export class LibraryClient {
   }
 
   public async addBook(
-    data: AddBookDto,
+    data: GetBookDto,
   ): Promise<ClientResponse<AddBookResponseDto>> {
     try {
       const response: AxiosResponse<AddBookResponseDto> =

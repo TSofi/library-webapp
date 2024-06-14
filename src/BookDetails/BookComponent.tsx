@@ -13,7 +13,7 @@ const BookComponent: React.FC<BookComponentProps> = ({
   author,
   publisher,
   publicationYear,
-  isAvailable,
+  available,
   onRequestLoan,
 }) => {
   return (
@@ -32,9 +32,9 @@ const BookComponent: React.FC<BookComponentProps> = ({
         <strong>ISBN:</strong> {isbn}
       </p>
       <p>
-        <strong>Available:</strong> {isAvailable ? 'Yes' : 'No'}
+        <strong>available:</strong> {available ? 'Yes' : 'No'}
       </p>
-      {isAvailable && (
+      {available && (
         <button onClick={onRequestLoan} className="loan-button">
           I want to borrow this book
         </button>

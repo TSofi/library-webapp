@@ -1,4 +1,3 @@
-// src/BookDetails/complicated/Book.tsx
 import React from 'react';
 import { BookProps } from './BookProps';
 
@@ -9,7 +8,7 @@ const Book: React.FC<BookProps> = ({
   author,
   publisher,
   publicationYear,
-  isAvailable,
+  available,
 }) => {
   return (
     <div className="book">
@@ -27,7 +26,7 @@ const Book: React.FC<BookProps> = ({
         <strong>ISBN:</strong> {isbn}
       </p>
       <p>
-        <strong>Available:</strong> {isAvailable ? 'Yes' : 'No'}
+        <strong>Available:</strong> {available ? 'Yes' : 'No'}
       </p>
     </div>
   );

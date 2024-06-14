@@ -1,50 +1,47 @@
-export class BookDto {
+export class GetBookDto {
   id!: number;
-  img!: string;
+  isbn!: string;
   title!: string;
   author!: string;
-  rating!: number;
-  isAvailable!: boolean;
+  publisher!: string;
+  publicationYear!: number;
+  available!: boolean;
+
+  constructor(
+    id: number,
+    isbn: string,
+    title: string,
+    author: string,
+    publisher: string,
+    publicationYear: number,
+    available: boolean,
+  ) {
+    this.id = id;
+    this.isbn = isbn;
+    this.title = title;
+    this.author = author;
+    this.publisher = publisher;
+    this.publicationYear = publicationYear;
+    this.available = available;
+  }
 }
 
 export class BooksPageDto {
-  books!: BookDto[];
+  books!: GetBookDto[];
   currentPage!: number;
   totalPages!: number;
   totalItems!: number;
   hasMore!: boolean;
 }
 
-export class BookDetailsDto {
-  id!: number;
-  img!: string;
-  title!: string;
-  author!: string;
-  isbn!: string;
-  publicationYear!: number;
-  publisher!: string;
-  rating!: number;
-  ratingCount!: number;
-  genre!: string;
-  summary!: string;
-  availableCopies!: number;
-}
-
-export class AddBookDto {
-  img!: string;
-  isbn!: string;
-  title!: string;
-  author!: string;
-  publisher!: string;
-  publicationYear!: number;
-  availableCopies!: number;
-  genre!: string;
-  summary!: string;
-}
-
 export class AddBookResponseDto {
   id!: number;
   copies!: number;
+
+  constructor(id: number, copies: number) {
+    this.id = id;
+    this.copies = copies;
+  }
 }
 
 export {};

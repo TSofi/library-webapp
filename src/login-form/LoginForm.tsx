@@ -8,12 +8,14 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { mainButtonStyle } from '../menu-app-bar/buttonStyle';
 import axios, { AxiosInstance } from 'axios';
 import RegisterForm from './Register-form';
+import { useApi } from '../backend/ApiProvider';
 
 function LoginForm() {
   const navigate = useNavigate();
   const location = useLocation();
   const initialValues = { username: '', password: '' };
   const [open, setOpen] = useState(location.state?.error || false);
+  const apiClient = useApi();
 
   const handleClose = (
     event: React.SyntheticEvent<any, Event> | Event,
@@ -30,21 +32,18 @@ function LoginForm() {
     async (values: { username: string; password: string }, formik: any) => {
       try {
         console.log('Submitting login form with values:', values);
-        const response = await axios.post(
-          'http://localhost:8081/api/auth/login',
-          values,
-        );
+        const response = await apiClient.login(values);
 
         console.log('Response:', response);
 
-        if (response.status === 200 || response.status === 201) {
-          const { token } = response.data;
-          localStorage.setItem('token', token);
+        if (response.statusCode === 200 || response.statusCode === 201) {
+          //const { token } = response.data;
+          //localStorage.setItem('token', token);
           console.log('Token saved to localStorage');
           navigate('/home');
           console.log('Navigation to /home triggered');
         } else {
-          console.log('Login failed with status:', response.status);
+          console.log('Login failed with status:', response.statusCode);
           setOpen(true);
         }
       } catch (error) {

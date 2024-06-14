@@ -1,16 +1,29 @@
 import { Box, Typography, Button, Grid } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { useApi } from '../backend/ApiProvider';
 import { useEffect, useState } from 'react';
+import { useApi } from '../backend/ApiProvider';
 
 const Footer = () => {
   const navigate = useNavigate();
   const apiClient = useApi();
+  const [isAdmin, setIsAdmin] = useState(false);
   const [userRole, setUserRole] = useState('');
 
   useEffect(() => {
-    const role = apiClient.getUserRole();
-    setUserRole(role);
+    const fetchUserRole = async () => {
+      try {
+        const role = await apiClient.getUserRole();
+        setUserRole(role);
+        console.log('User Role:', role);
+        const admin = await apiClient.isAdmin();
+        setIsAdmin(admin);
+        console.log('isAdmin:', admin);
+      } catch (error) {
+        console.error('Error fetching user role:', error);
+      }
+    };
+
+    fetchUserRole();
   }, [apiClient]);
 
   return (
@@ -28,7 +41,7 @@ const Footer = () => {
           <Button onClick={() => navigate('/about')} color="inherit">
             About Me and My book-club
           </Button>
-          {userRole === 'ROLE_ADMIN' && (
+          {isAdmin && (
             <>
               <Button
                 onClick={() => navigate('/admin/addBook')}
@@ -54,5 +67,3 @@ const Footer = () => {
 };
 
 export default Footer;
-
-export {};
