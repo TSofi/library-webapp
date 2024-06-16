@@ -24,7 +24,7 @@ const AddUser: React.FC = () => {
     };
 
     try {
-      const response = await axios.post('/api/users', userData);
+      const response = await axios.post('api/users/add', userData);
       console.log('User added:', response.data);
     } catch (error) {
       console.error('There was an error adding the user!', error);

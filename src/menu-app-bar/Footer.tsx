@@ -35,9 +35,6 @@ const Footer = () => {
           <Typography>Phone: 799-088-655</Typography>
         </Grid>
         <Grid item xs={6}>
-          <Button onClick={() => navigate('/my_books')} color="inherit">
-            My Books
-          </Button>
           <Button onClick={() => navigate('/about')} color="inherit">
             About Me and My book-club
           </Button>
@@ -57,6 +54,12 @@ const Footer = () => {
               </Button>
               <Button onClick={() => navigate('/admin/users')} color="inherit">
                 Users
+              </Button>
+              <Button
+                onClick={() => navigate('/admin/addLoan')}
+                color="inherit"
+              >
+                Add Loan
               </Button>
             </>
           )}

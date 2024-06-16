@@ -1,0 +1,32 @@
+.MyLoansPage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.MyLoansList {
+  width: 100%;
+  max-width: 600px; /* Adjust as per your design */
+  margin-top: 20px;
+}
+
+.MyLoansListItem {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  padding: 10px;
+  background-color: #f9f9f9;
+}
+
+.MyLoansLoading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.MyLoansErrorMessage {
+  color: red;
+  margin-top: 20px;
+}

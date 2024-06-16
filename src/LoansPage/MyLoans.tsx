@@ -1,22 +1,26 @@
 import React, { useEffect, useState } from 'react';
-import { LibraryClient, ClientResponse } from '../backend/libraryClient';
+import { LoanPageDto, LoanDto } from '../DTO-s/loanDTO';
 import { GetBookDto } from '../DTO-s/bookDTO';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
+import { LibraryClient, ClientResponse } from '../backend/libraryClient';
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  IconButton,
+  MenuItem,
+  Menu,
+  Button,
+} from '@mui/material';
 import AccountCircle from '@mui/icons-material/AccountCircle';
-import MenuItem from '@mui/material/MenuItem';
-import Menu from '@mui/material/Menu';
 import BookIcon from '@mui/icons-material/Book';
 import HomeIcon from '@mui/icons-material/Home';
 import { Link, useNavigate } from 'react-router-dom';
-import { Box, Grid, Button } from '@mui/material';
+import { Box, Grid } from '@mui/material';
 import Footer from '../menu-app-bar/Footer';
 import Autocomplete from '../LoansPage/Autocomplete';
 
-const BookList: React.FC = () => {
-  const [books, setBooks] = useState<GetBookDto[]>([]);
+const MyLoans: React.FC = () => {
+  const [loanPage, setLoanPage] = useState<LoanPageDto | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [page, setPage] = useState<number>(0);
@@ -25,26 +29,26 @@ const BookList: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetchBooks();
+    fetchLoans();
   }, [page, searchTerm]);
 
-  const fetchBooks = async () => {
+  const fetchLoans = async () => {
     setLoading(true);
     setError(null);
 
     try {
       const client = new LibraryClient();
-      const response: ClientResponse<GetBookDto[] | null> =
-        await client.getBooks(page, searchTerm);
+      const response: ClientResponse<LoanPageDto | null> =
+        await client.getLoans(page, 1);
 
       if (response.success && response.data) {
-        setBooks(response.data);
+        setLoanPage(response.data);
       } else {
-        setError('Failed to fetch books.');
+        setError('Failed to fetch loans.');
       }
     } catch (error) {
-      console.error('Error fetching books:', error);
-      setError('Failed to fetch books.');
+      console.error('Error fetching loans:', error);
+      setError('Failed to fetch loans.');
     } finally {
       setLoading(false);
     }
@@ -53,12 +57,6 @@ const BookList: React.FC = () => {
   const handleSearch = (term: string) => {
     setPage(0);
     setSearchTerm(term);
-  };
-
-  const getRandomPastelColor = () => {
-    const hue = Math.floor(Math.random() * 360);
-    const pastel = `hsl(${hue}, 70%, 80%)`;
-    return pastel;
   };
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -91,8 +89,8 @@ const BookList: React.FC = () => {
                 <BookIcon />
               </IconButton>
             </Link>
-            <Button color="inherit" onClick={() => navigate('/take_loan')}>
-              Take Loan
+            <Button color="inherit" onClick={() => navigate('/loans')}>
+              Make new Loan
             </Button>
             <IconButton
               size="large"
@@ -157,7 +155,7 @@ const BookList: React.FC = () => {
       </AppBar>
 
       <div style={{ marginTop: '80px', padding: '20px' }}>
-        <h2>Book List</h2>
+        <h2>My Loans</h2>
 
         <div style={{ marginBottom: '20px' }}>
           <Autocomplete
@@ -178,27 +176,21 @@ const BookList: React.FC = () => {
             gap: '10px',
           }}
         >
-          {books.map((book) => (
+          {loanPage?.loans.map((loan) => (
             <div
-              key={book.id}
+              key={loan.id}
               style={{
-                backgroundColor: getRandomPastelColor(),
+                backgroundColor: 'lightblue', // Change this to a color or function of your choice
                 padding: '10px',
                 borderRadius: '5px',
                 boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
                 color: 'black',
               }}
             >
-              <h3>{book.title}</h3>
-              <p style={{ color: 'black' }}>Author: {book.author}</p>
-              <p style={{ color: 'black' }}>ISBN: {book.isbn}</p>
-              <p style={{ color: 'black' }}>Publisher: {book.publisher}</p>
-              <p style={{ color: 'black' }}>
-                Publication Year: {book.publicationYear}
-              </p>
-              <p style={{ color: 'black' }}>
-                Available: {book.available ? 'Yes' : 'No'}
-              </p>
+              <h3>{loan.book.title}</h3>
+              <p style={{ color: 'black' }}>Author: {loan.book.author}</p>
+              <p style={{ color: 'black' }}>ISBN: {loan.book.isbn}</p>
+              <p style={{ color: 'black' }}>Due Date: {loan.dueDate}</p>
             </div>
           ))}
         </div>
@@ -221,4 +213,4 @@ const BookList: React.FC = () => {
   );
 };
 
-export default BookList;
+export default MyLoans;

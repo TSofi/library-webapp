@@ -11,7 +11,7 @@ import Cookies from 'universal-cookie';
 import { JwtPayload, jwtDecode } from 'jwt-decode';
 
 import { LoginDto, LoginResponseDto } from '../DTO-s/loginDTO';
-import { BooksPageDto, GetBookDto, AddBookResponseDto } from '../DTO-s/bookDTO';
+import { GetBookDto, AddBookResponseDto } from '../DTO-s/bookDTO';
 
 import {
   CreateLoanDto,
@@ -248,7 +248,7 @@ export class LibraryClient {
   ): Promise<ClientResponse<AddBookResponseDto>> {
     try {
       const response: AxiosResponse<AddBookResponseDto> =
-        await this.client.post('books/add', data);
+        await this.client.post('/addBook', data);
       return {
         success: true,
         data: response.data,
@@ -276,6 +276,9 @@ export class LibraryClient {
             userId: userId,
             page: page,
             size: 8,
+          },
+          headers: {
+            Accept: 'application/json',
           },
         },
       );
@@ -360,7 +363,8 @@ export class LibraryClient {
 
   public async getCurrentUser(): Promise<ClientResponse<UserDto | null>> {
     try {
-      const response: AxiosResponse<UserDto> = await this.client.get('user/me');
+      const response: AxiosResponse<UserDto> =
+        await this.client.get('users/me');
       return {
         success: true,
         data: response.data,

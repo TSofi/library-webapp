@@ -4,4 +4,10 @@ export class UserDto {
   lastName!: string;
 }
 
+export class GetUserDto {
+  users!: UserDto[];
+  firstName!: string;
+  lastName!: string;
+}
+
 export {};

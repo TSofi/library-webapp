@@ -10,6 +10,10 @@
   align-items: center;
 }
 
+.about-box p {
+  color: black;
+}
+
 .background-image::before {
   content: '';
   position: absolute;
