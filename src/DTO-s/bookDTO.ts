@@ -45,3 +45,12 @@ export class AddBookResponseDto {
 }
 
 export {};
+
+export interface BookFormValues {
+  isbn: string;
+  title: string;
+  author: string;
+  publisher: string;
+  publicationYear: number;
+  availableCopies: number;
+}

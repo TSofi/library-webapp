@@ -1,34 +1,53 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import { Box, TextField, Button, Typography, MenuItem } from '@mui/material';
+import React from 'react';
+import { Box, Button, TextField, Typography } from '@mui/material';
+import { Formik, Form, Field, FormikHelpers } from 'formik';
+import * as yup from 'yup';
+import { useNavigate } from 'react-router-dom';
 import MenuAppBar from '../menu-app-bar/MenuAppBar';
+import { useApi } from '../backend/ApiProvider'; // Import useApi hook
+import { RegisterDto, RegisterResponseDto } from '../DTO-s/registerDTO';
+
+interface UserFormValues {
+  password: string;
+  username: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  role: 'ROLE_READER' | 'ROLE_ADMIN';
+}
+
+const validationSchema = yup.object({
+  password: yup.string().required('Password is required'),
+  username: yup.string().required('Username is required'),
+  firstName: yup.string().required('First name is required'),
+  lastName: yup.string().required('Last name is required'),
+  email: yup.string().email('Invalid email').required('Email is required'),
+  role: yup.mixed().oneOf(['ROLE_READER', 'ROLE_ADMIN'], 'Role is required'),
+});
 
 const AddUser: React.FC = () => {
-  const [password, setPassword] = useState('');
-  const [username, setUsername] = useState('');
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
-  const [role, setRole] = useState('');
+  const apiClient = useApi(); // Use useApi hook to get ApiClient from context
+  const navigate = useNavigate();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    const userData = {
-      password,
-      username,
-      firstName,
-      lastName,
-      email,
-      role,
-    };
-
+  const handleSubmit = async (
+    values: UserFormValues,
+    { setSubmitting }: FormikHelpers<UserFormValues>,
+  ) => {
     try {
-      const response = await axios.post('api/users/add', userData);
-      console.log('User added:', response.data);
+      const response = await apiClient.register(values);
+
+      if (response.success) {
+        alert('User added successfully');
+        navigate('/admin/users');
+      } else {
+        alert(`Failed to add user: ${response.statusCode}`);
+      }
     } catch (error) {
-      console.error('There was an error adding the user!', error);
+      console.error('Error registering user:', error);
+      alert('Failed to register user');
     }
+
+    setSubmitting(false);
   };
 
   return (
@@ -38,7 +57,7 @@ const AddUser: React.FC = () => {
         flexDirection: 'column',
         alignItems: 'center',
         minHeight: '100vh',
-        backgroundImage: 'urlurl(src/assets/images/AdminWallp.jpg)',
+        backgroundImage: 'url(src/assets/images/AdminWallp.jpg)',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
       }}
@@ -52,83 +71,119 @@ const AddUser: React.FC = () => {
           boxShadow: 3,
           width: '100%',
           maxWidth: 400,
-          mt: 10, // Margin to push content below the AppBar
+          mt: 10,
         }}
       >
         <Typography variant="h4" component="h1" gutterBottom align="center">
           Add a New User
         </Typography>
-        <form onSubmit={handleSubmit}>
-          <TextField
-            label="Username"
-            variant="outlined"
-            fullWidth
-            margin="normal"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
-          <TextField
-            label="Password"
-            variant="outlined"
-            fullWidth
-            margin="normal"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-          <TextField
-            label="First Name"
-            variant="outlined"
-            fullWidth
-            margin="normal"
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
-            required
-          />
-          <TextField
-            label="Last Name"
-            variant="outlined"
-            fullWidth
-            margin="normal"
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
-            required
-          />
-          <TextField
-            label="Email"
-            variant="outlined"
-            fullWidth
-            margin="normal"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-          <TextField
-            label="Role"
-            variant="outlined"
-            fullWidth
-            margin="normal"
-            select
-            value={role}
-            onChange={(e) => setRole(e.target.value)}
-            required
-          >
-            <MenuItem value="ADMIN">Admin</MenuItem>
-            <MenuItem value="READER">Reader</MenuItem>
-          </TextField>
-          <Button
-            type="submit"
-            variant="contained"
-            color="primary"
-            fullWidth
-            sx={{ mt: 2 }}
-          >
-            Add User
-          </Button>
-        </form>
+        <Formik
+          initialValues={{
+            password: '',
+            username: '',
+            firstName: '',
+            lastName: '',
+            email: '',
+            role: 'ROLE_READER', // Set default role here if needed
+          }}
+          validationSchema={validationSchema}
+          onSubmit={handleSubmit}
+        >
+          {({ values, handleChange, errors, touched }) => (
+            <Form>
+              <Field
+                as={TextField}
+                label="Username"
+                name="username"
+                variant="outlined"
+                fullWidth
+                margin="normal"
+                value={values.username}
+                onChange={handleChange}
+                error={touched.username && Boolean(errors.username)}
+                helperText={touched.username && errors.username}
+              />
+              <Field
+                as={TextField}
+                label="Password"
+                name="password"
+                type="password"
+                variant="outlined"
+                fullWidth
+                margin="normal"
+                value={values.password}
+                onChange={handleChange}
+                error={touched.password && Boolean(errors.password)}
+                helperText={touched.password && errors.password}
+              />
+              <Field
+                as={TextField}
+                label="First Name"
+                name="firstName"
+                variant="outlined"
+                fullWidth
+                margin="normal"
+                value={values.firstName}
+                onChange={handleChange}
+                error={touched.firstName && Boolean(errors.firstName)}
+                helperText={touched.firstName && errors.firstName}
+              />
+              <Field
+                as={TextField}
+                label="Last Name"
+                name="lastName"
+                variant="outlined"
+                fullWidth
+                margin="normal"
+                value={values.lastName}
+                onChange={handleChange}
+                error={touched.lastName && Boolean(errors.lastName)}
+                helperText={touched.lastName && errors.lastName}
+              />
+              <Field
+                as={TextField}
+                label="Email"
+                name="email"
+                type="email"
+                variant="outlined"
+                fullWidth
+                margin="normal"
+                value={values.email}
+                onChange={handleChange}
+                error={touched.email && Boolean(errors.email)}
+                helperText={touched.email && errors.email}
+              />
+              <Field
+                as={TextField}
+                label="Role"
+                name="role"
+                variant="outlined"
+                fullWidth
+                select
+                margin="normal"
+                value={values.role}
+                onChange={handleChange}
+                error={touched.role && Boolean(errors.role)}
+                helperText={touched.role && errors.role}
+                SelectProps={{
+                  native: true,
+                }}
+              >
+                <option value="ROLE_READER">Reader</option>
+                <option value="ROLE_ADMIN">Admin</option>
+              </Field>
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                fullWidth
+                sx={{ mt: 2 }}
+              >
+                Add User
+              </Button>
+            </Form>
+          )}
+        </Formik>
       </Box>
     </Box>
   );

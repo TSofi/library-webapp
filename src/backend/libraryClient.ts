@@ -11,7 +11,11 @@ import Cookies from 'universal-cookie';
 import { JwtPayload, jwtDecode } from 'jwt-decode';
 
 import { LoginDto, LoginResponseDto } from '../DTO-s/loginDTO';
-import { GetBookDto, AddBookResponseDto } from '../DTO-s/bookDTO';
+import {
+  GetBookDto,
+  AddBookResponseDto,
+  BookFormValues,
+} from '../DTO-s/bookDTO';
 
 import {
   CreateLoanDto,
@@ -113,6 +117,34 @@ export class LibraryClient {
 
   public async register(
     data: RegisterDto,
+  ): Promise<ClientResponse<RegisterResponseDto>> {
+    try {
+      const response: AxiosResponse<RegisterResponseDto> =
+        await this.client.post('auth/register', data);
+
+      return {
+        success: true,
+        data: response.data,
+        statusCode: response.status,
+      };
+    } catch (error) {
+      const axiosError = error as AxiosError<Error>;
+
+      return {
+        success: false,
+        data: {
+          uid: '',
+          username: '',
+          role: '',
+        },
+        statusCode: axiosError.response?.status || 0,
+      };
+    }
+  }
+
+  /*
+  public async register(
+    data: RegisterDto,
   ): Promise<ClientResponse<RegisterResponseDto | null>> {
     try {
       const response: AxiosResponse<RegisterResponseDto> =
@@ -132,6 +164,8 @@ export class LibraryClient {
       };
     }
   }
+
+  */
 
   public async getUsers(): Promise<ClientResponse<UserDto[]>> {
     try {
@@ -244,11 +278,11 @@ export class LibraryClient {
   }
 
   public async addBook(
-    data: GetBookDto,
+    data: BookFormValues,
   ): Promise<ClientResponse<AddBookResponseDto>> {
     try {
       const response: AxiosResponse<AddBookResponseDto> =
-        await this.client.post('/addBook', data);
+        await this.client.post('/addBook/create', data);
       return {
         success: true,
         data: response.data,

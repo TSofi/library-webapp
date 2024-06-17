@@ -7,6 +7,7 @@ import HelpPage from './menu-app-bar/HelpPage';
 import AddBook from './Admins_Pages/AddBook';
 import AddUser from './Admins_Pages/AddUser';
 import AddLoan from './Admins_Pages/AddLoan';
+import Admin_all_users from './Admins_Pages/Admin_all_users';
 import MyLoans from './LoansPage/MyLoans';
 
 import {
@@ -30,6 +31,7 @@ function App() {
         <Route path="/admin/addBook" element={<AddBook />} />
         <Route path="/admin/addUser" element={<AddUser />} />
         <Route path="/admin/addLoan" element={<AddLoan />} />
+        <Route path="/admin/users" element={<Admin_all_users />} />
       </Routes>
     </Router>
   );

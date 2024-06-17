@@ -7,7 +7,6 @@ import * as yup from 'yup';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { mainButtonStyle } from '../menu-app-bar/buttonStyle';
 import axios, { AxiosInstance } from 'axios';
-import RegisterForm from './Register-form';
 import { useApi } from '../backend/ApiProvider';
 
 function LoginForm() {
