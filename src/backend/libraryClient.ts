@@ -142,35 +142,10 @@ export class LibraryClient {
     }
   }
 
-  /*
-  public async register(
-    data: RegisterDto,
-  ): Promise<ClientResponse<RegisterResponseDto | null>> {
-    try {
-      const response: AxiosResponse<RegisterResponseDto> =
-        await this.client.post('auth/register', data);
-
-      return {
-        success: true,
-        data: response.data,
-        statusCode: response.status,
-      };
-    } catch (error) {
-      const axiosError = error as AxiosError<Error>;
-      return {
-        success: false,
-        data: null,
-        statusCode: axiosError.response?.status || 0,
-      };
-    }
-  }
-
-  */
-
   public async getUsers(): Promise<ClientResponse<UserDto[]>> {
     try {
       const response: AxiosResponse<UserDto[]> =
-        await this.client.get('user/getAll');
+        await this.client.get('users/getAll');
       return {
         success: true,
         data: response.data,
@@ -189,7 +164,7 @@ export class LibraryClient {
   public async deleteUser(id: number): Promise<ClientResponse<null>> {
     try {
       const response: AxiosResponse<null> = await this.client.delete(
-        `user/delete/${id}`,
+        `users/delete/${id}`,
       );
       return {
         success: true,
