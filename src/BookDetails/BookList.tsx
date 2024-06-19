@@ -69,8 +69,8 @@ const BookList: React.FC = () => {
     setAnchorEl(null);
   };
 
-  const handleAutocompleteSelect = (option: any) => {
-    handleSearch(option.title);
+  const handleAutocompleteSelect = (option: string) => {
+    handleSearch(option);
   };
 
   return (

@@ -1,57 +1,112 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import {
+  TextField,
+  Button,
+  Card,
+  CardContent,
+  Typography,
+} from '@mui/material';
+import { CreateLoanDto, CreateLoanResponseDto } from '../DTO-s/loanDTO';
+import { LibraryClient } from '../backend/libraryClient';
+import MenuAppBar from '../menu-app-bar/MenuAppBar';
+import Footer from '../menu-app-bar/Footer';
 
-const AddLoan: React.FC = () => {
-  const [userId, setUserId] = useState<number | undefined>();
-  const [bookId, setBookId] = useState<number | undefined>();
-  const [dueDate, setDueDate] = useState<string | undefined>();
-  const [error, setError] = useState<string | undefined>();
+const LoanPage: React.FC = () => {
+  const [userId, setUserId] = useState<string>('');
+  const [bookId, setBookId] = useState<string>('');
+  const [dueDate, setDueDate] = useState<string>('');
+  const [response, setResponse] = useState<CreateLoanResponseDto | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const libraryClient = new LibraryClient();
 
-  const baseUrl = 'http://localhost:8081';
+  const handleSubmit = async () => {
+    setError(null);
+    setResponse(null);
 
-  const handleAddLoan = async () => {
-    if (!userId || !bookId || !dueDate) {
-      setError('Please fill in all required fields.');
-      return;
-    }
-
-    const createLoanDto = {
-      userId: userId,
-      bookId: bookId,
-      dueDate: dueDate,
+    const loanData: CreateLoanDto = {
+      userId: Number(userId),
+      bookId: Number(bookId),
+      dueDate,
     };
 
-    try {
-      const response = await axios.post(
-        `${baseUrl}/api/loans/add`,
-        createLoanDto,
-      );
-      console.log('New loan created:', response.data);
-    } catch (err) {
-      setError('Failed to add loan. Please try again.');
-      console.error('Error creating loan:', err);
+    const result = await libraryClient.takeLoan(loanData);
+    if (result.success) {
+      setResponse(result.data);
+    } else {
+      setError('Failed to create loan.');
     }
   };
 
   return (
     <div>
-      <h2>Add Loan</h2>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      <label>User ID:</label>
-      <input
-        type="number"
-        onChange={(e) => setUserId(Number(e.target.value))}
-      />
-      <label>Book ID:</label>
-      <input
-        type="number"
-        onChange={(e) => setBookId(Number(e.target.value))}
-      />
-      <label>Due Date:</label>
-      <input type="date" onChange={(e) => setDueDate(e.target.value)} />
-      <button onClick={handleAddLoan}>Add Loan</button>
+      <MenuAppBar />
+      <div style={{ marginTop: '80px', padding: '20px' }}>
+        <Typography variant="h4" component="h2">
+          Create a Loan
+        </Typography>
+        <Card
+          variant="outlined"
+          sx={{ maxWidth: 600, margin: '20px auto', padding: '20px' }}
+        >
+          <CardContent>
+            <TextField
+              label="User ID"
+              type="number"
+              fullWidth
+              value={userId}
+              onChange={(e) => setUserId(e.target.value)}
+              margin="normal"
+            />
+            <TextField
+              label="Book ID"
+              type="number"
+              fullWidth
+              value={bookId}
+              onChange={(e) => setBookId(e.target.value)}
+              margin="normal"
+            />
+            <TextField
+              label="Due Date"
+              type="date"
+              fullWidth
+              InputLabelProps={{ shrink: true }}
+              value={dueDate}
+              onChange={(e) => setDueDate(e.target.value)}
+              margin="normal"
+            />
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleSubmit}
+              sx={{ marginTop: '20px' }}
+            >
+              Create Loan
+            </Button>
+            {response && (
+              <Typography
+                variant="body1"
+                color="success.main"
+                sx={{ marginTop: '20px' }}
+              >
+                Loan created successfully!
+                {response.dueDate}
+              </Typography>
+            )}
+            {error && (
+              <Typography
+                variant="body1"
+                color="error.main"
+                sx={{ marginTop: '20px' }}
+              >
+                {error}
+              </Typography>
+            )}
+          </CardContent>
+        </Card>
+      </div>
+      <Footer />
     </div>
   );
 };
 
-export default AddLoan;
+export default LoanPage;

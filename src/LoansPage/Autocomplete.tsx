@@ -4,7 +4,7 @@ import axios from 'axios';
 type AutocompleteProps = {
   value: string;
   onChange: (value: string) => void;
-  onSelect: (value: any) => void;
+  onSelect: (value: string) => void;
 };
 
 const Autocomplete: React.FC<AutocompleteProps> = ({
@@ -12,31 +12,16 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
   onChange,
   onSelect,
 }) => {
-  const [options, setOptions] = useState<any[]>([]);
+  const [options] = useState<string[]>([
+    'Ash and Blood: Book 1 - The Awakening',
+    'The Bone Season',
+    'The Wrath and the Dawn',
+    'The Lunar Chronicles: Cinder',
+  ]);
 
-  useEffect(() => {
-    if (value.length > 2) {
-      const fetchBookOptions = async () => {
-        try {
-          const response = await axios.get(
-            `http://localhost:8081/api/addBook/autocomplete?query=${value}`,
-          );
-          setOptions(response.data);
-        } catch (error) {
-          console.error('Error fetching book options:', error);
-        }
-      };
-
-      fetchBookOptions();
-    } else {
-      setOptions([]);
-    }
-  }, [value]);
-
-  const handleSelectOption = (option: any) => {
+  const handleSelectOption = (option: string) => {
     onSelect(option);
-    onChange(option.title);
-    setOptions([]);
+    onChange(option);
   };
 
   return (
@@ -49,21 +34,25 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
         autoComplete="off"
         style={{ fontSize: '1.5rem', padding: '10px', width: '50%' }}
       />
-      {options.length > 0 && (
+      {options.length > 0 && value.length > 0 && (
         <ul style={{ listStyle: 'none', padding: 0 }}>
-          {options.map((option) => (
-            <li
-              key={option.id}
-              onClick={() => handleSelectOption(option)}
-              style={{
-                cursor: 'pointer',
-                padding: '10px',
-                borderBottom: '1px solid #ccc',
-              }}
-            >
-              {option.title}
-            </li>
-          ))}
+          {options
+            .filter((option) =>
+              option.toLowerCase().includes(value.toLowerCase()),
+            )
+            .map((option, index) => (
+              <li
+                key={index}
+                onClick={() => handleSelectOption(option)}
+                style={{
+                  cursor: 'pointer',
+                  padding: '10px',
+                  borderBottom: '1px solid #ccc',
+                }}
+              >
+                {option}
+              </li>
+            ))}
         </ul>
       )}
     </div>

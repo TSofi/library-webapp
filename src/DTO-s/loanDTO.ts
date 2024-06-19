@@ -34,4 +34,16 @@ export class GetLoanDto {
   dueDate!: string;
 }
 
+export interface CreateLoanDto {
+  userId: number;
+  bookId: number;
+  dueDate: string;
+}
+
+export interface CreateLoanResponseDto {
+  loanId: number;
+  dueDate: string;
+}
+
+
 export {};

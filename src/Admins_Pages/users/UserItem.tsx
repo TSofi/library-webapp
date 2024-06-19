@@ -2,7 +2,13 @@ import React, { useState } from 'react';
 import { UserDto } from '../../DTO-s/userDTO';
 import UserDeleteConfirmDialog from './DeleteDialog';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Card, CardContent, CardActions, Typography } from '@mui/material';
+import {
+  Card,
+  CardContent,
+  CardActions,
+  Typography,
+  Button,
+} from '@mui/material';
 
 interface UserItemProps {
   user: UserDto;
@@ -27,24 +33,21 @@ const UserItem: React.FC<UserItemProps> = ({ user, deleteUser }) => {
   };
 
   return (
-    <Card
-      variant="outlined"
-      sx={{
-        marginX: '25%',
-        marginTop: 2,
-      }}
-    >
+    <Card variant="outlined" sx={{ width: '60%', mb: 2 }}>
       <CardContent>
-        <Typography variant="h6">
+        <Typography variant="h6" component="div">
           {user.firstName} {user.lastName}
         </Typography>
       </CardContent>
       <CardActions>
-        <CustomButton
-          onClick={handleDelete}
+        <Button
+          variant="contained"
+          color="error"
           startIcon={<DeleteIcon />}
-          label="Delete"
-        />
+          onClick={handleDelete}
+        >
+          Delete
+        </Button>
       </CardActions>
       <UserDeleteConfirmDialog
         open={open}
@@ -56,37 +59,5 @@ const UserItem: React.FC<UserItemProps> = ({ user, deleteUser }) => {
     </Card>
   );
 };
-
-interface CustomButtonProps {
-  onClick: () => void;
-  startIcon?: React.ReactNode;
-  label: string;
-}
-
-const CustomButton: React.FC<CustomButtonProps> = ({
-  onClick,
-  startIcon,
-  label,
-}) => (
-  <button
-    className="custom-button"
-    onClick={onClick}
-    style={{
-      backgroundColor: '#f44336',
-      color: 'white',
-      padding: '10px 20px',
-      border: 'none',
-      borderRadius: '3px',
-      cursor: 'pointer',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      gap: '5px',
-    }}
-  >
-    {startIcon}
-    {label}
-  </button>
-);
 
 export default UserItem;

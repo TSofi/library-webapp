@@ -1,4 +1,12 @@
 import React, { MouseEvent } from 'react';
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Button,
+} from '@mui/material';
 
 interface ConfirmationDialogProps {
   open: boolean;
@@ -16,24 +24,20 @@ const UserDeleteConfirmDialog: React.FC<ConfirmationDialogProps> = ({
   onConfirm,
 }) => {
   return (
-    <div
-      className="dialog-wrapper"
-      style={{ display: open ? 'block' : 'none' }}
-    >
-      <div className="dialog-backdrop" />
-      <div className="dialog-box">
-        <h2 className="dialog-title">{title}</h2>
-        <p className="dialog-text">{message}</p>
-        <div className="dialog-buttons">
-          <button className="dialog-cancel" onClick={onClose}>
-            Cancel
-          </button>
-          <button className="dialog-confirm" onClick={onConfirm}>
-            Delete
-          </button>
-        </div>
-      </div>
-    </div>
+    <Dialog open={open} onClose={onClose}>
+      <DialogTitle>{title}</DialogTitle>
+      <DialogContent>
+        <DialogContentText>{message}</DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={onClose} color="primary">
+          Cancel
+        </Button>
+        <Button onClick={onConfirm} color="error">
+          Delete
+        </Button>
+      </DialogActions>
+    </Dialog>
   );
 };
 

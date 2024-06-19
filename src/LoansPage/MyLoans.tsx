@@ -89,7 +89,7 @@ const MyLoans: React.FC = () => {
                 <BookIcon />
               </IconButton>
             </Link>
-            <Button color="inherit" onClick={() => navigate('/loans')}>
+            <Button color="inherit" onClick={() => navigate('/make_new_loan')}>
               Make new Loan
             </Button>
             <IconButton
